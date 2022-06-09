@@ -2,6 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\SSOBrokerController;
+
+
+Route::get('backend/login', [SSOBrokerController::class, 'authenticateToSSO']);
+Route::get('authenticateToSSO', [SSOBrokerController::class, 'authenticateToSSO']);
+Route::get('authData/{authData}', [SSOBrokerController::class, 'authenticateToSSO']);
+Route::get('logout/{sessionId}', [SSOBrokerController::class, 'logout']);
+Route::get('logout', [SSOBrokerController::class, 'logout']);
+Route::get('changeRole/{role}', [SSOBrokerController::class, 'changeRole'])->name('changeRole');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +24,24 @@ use App\Http\Controllers\BlogController;
 |
 */
 
+
+
+Route::group(['middleware' => ['SSOBrokerMiddleware']], function () {
+    Route::get('test', function(){
+       return 'test';   
+    });
+    Route::get('/', function () {
+        
+        return view('welcome');
+    });
+ });
+
+//Route::resource('blog', BlogController::class);
+
 Route::get('/',[BlogController::class,'index']);
 Route::get('/create',[BlogController::class,'create']);
 Route::post('/store',[BlogController::class,'store']);
 Route::get('/edit/{id}',[BlogController::class,'edit']);
 Route::post('/update/{id}',[BlogController::class,'update']);
 Route::get('/destroy/{id}',[BlogController::class,'destroy']);
+

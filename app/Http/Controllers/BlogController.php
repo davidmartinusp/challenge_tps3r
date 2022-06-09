@@ -17,7 +17,7 @@ class BlogController extends Controller
     {
         $data = ModelBlog::all();
 
-        return view('index')->with([
+        return view('blog.index')->with([
             'results' => $data
         ]);
     }
@@ -29,7 +29,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('create');
+        return view('blog.create');
     }
 
     /**
@@ -43,23 +43,18 @@ class BlogController extends Controller
         $validator = Validator::make($request->all(), [     
             'name'     => 'required',
             'description'   => 'required',
-            'image'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image_id'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
          ]);
 
-        /*$this->validate($request,[
-            'name' => 'required',
-            'description' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-        ]);*/
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
          }
 
         $data = $request->except(['_token']);
-        if($request->file('image')){
-            $imgName = time().'.'.$request->file('image')->extension();
-            $data['image'] = $request->file('image')->move('blog',$imgName);
+        if($request->file('image_id')){
+            $imgName = time().'.'.$request->file('image_id')->extension();
+            $data['image_id'] = $request->file('image_id')->move('blog',$imgName);
         }
 
         ModelBlog::insert($data);
@@ -87,7 +82,7 @@ class BlogController extends Controller
     {
         $data = ModelBlog::findOrFail($id);
         
-        return view('edit')->with([
+        return view('blog.edit')->with([
             'results' => $data
         ]);
     }
@@ -104,21 +99,21 @@ class BlogController extends Controller
         $this->validate($request,[
             'name' => 'required',
             'description' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'image_id' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         $item = ModelBlog::findOrFail($id);
         $data = $request->except(['_token']);
 
-        if($request->file('image')){
+        if($request->file('image_id')){
 
             if($item->image != ''){
                 unlink($item->image);
             }
             
             
-            $imgName = time().'.'.$request->file('image')->extension();
-            $data['image'] = $request->file('image')->move('blog',$imgName);
+            $imgName = time().'.'.$request->file('image_id')->extension();
+            $data['image_id'] = $request->file('image_id')->move('blog',$imgName);
         }
         $item->update($data);
         return redirect('/');

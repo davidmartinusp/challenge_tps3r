@@ -195,6 +195,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        SPBE\NobleUI\Providers\SPBENobleServiceProvider::class,
+
     ],
 
     /*
@@ -210,6 +212,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Menu' => App\Services\Menu\MenuService::class,
     ])->toArray(),
 
 ];

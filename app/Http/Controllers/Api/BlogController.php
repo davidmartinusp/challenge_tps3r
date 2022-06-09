@@ -15,6 +15,6 @@ class BlogController extends Controller
         $blog = ModelBlog::latest()->paginate(10);
 
         //return collection of posts as a resource
-        return new blogResource(true, 'List Data Posts', $blog);
+        return new blogResource(true, 'List Data Blog', $blog);
     }
 }
