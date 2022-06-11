@@ -12,9 +12,9 @@ class BlogController extends Controller
     public function index()
     {
         //get posts
-        $blog = ModelBlog::latest()->paginate(10);
+        //$blog = ModelBlog::latest()->paginate(10);
 
         //return collection of posts as a resource
-        return new blogResource(true, 'List Data Blog', $blog);
+        //return new blogResource(true, 'List Data Blog', $blog);
     }
 }

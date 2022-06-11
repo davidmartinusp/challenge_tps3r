@@ -28,7 +28,7 @@
         	<div class="row">
             	<div class="col-lg-12 margin-tb">
 		        <h1>Latihan CRUD Blog</h1>
-                <a href="{{ url('create') }}" class="btn btn-primary"> + Tambah Blog </a>
+                <a href="{{ url('blog.create') }}" class="btn btn-primary"> + Tambah Blog </a>
                 <table class="table mt-2">
                     <tr>
                         <th>ID</th>
@@ -44,7 +44,7 @@
                         <td>{{ $item->description }}</td>
                         <td><img src="{{ $item->image }}" width="100px"></td>
                         <td>
-                            <a href="{{ url('edit/' . $item->id) }}" class="btn btn-warning"> Edit </a>
+                            <a href="{{ url('blog.edit/' . $item->id) }}" class="btn btn-warning"> Edit </a>
                             <a href="{{ url('destroy/' . $item->id) }}" class="btn btn-danger"> Delete </a>
                         </td>
                     </tr>

@@ -18,17 +18,10 @@ class ModelBlog extends Model
     protected $fillable = [
         'name',
         'description',
-        'image_id'
+        'image_id',
+        'created_user_id'
     ];
     protected $hidden;
 
-    public function createdImage()
-    {
-        return $this->belongsTo(Blog::class, 'image_id', 'id');
-    }
 
-    public function createdUser()
-    {
-        return $this->hasOne('Api\Models\User', 'created_user_id', 'id');
-    }
 }
