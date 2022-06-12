@@ -41,9 +41,9 @@
                         @error('description') <i class="text-danger">{{ $message }}</i> @enderror
                     </div>
                     <div class="form-group mt-2">
-                        <label for="name">Image : </label>
-                        <input type="file" name="image" class="form-control">
-                        @error('image_id') <i class="text-danger">{{ $message }}</i> @enderror
+                        <label class="font-weight-bold">Dibuat Oleh :</label>
+                        <input type="text" class="form-control @error('created_user_id') is-invalid" name="created_user_id" 
+                        value="{{ old('created_user_id') }}" placeholder="Masukkan ID Pengguna"> <i class="text-danger">{{ $message }}</i> @enderror
                     </div>
                     <div class="form-group mt-2">
                         <label for="name">Image : </label>

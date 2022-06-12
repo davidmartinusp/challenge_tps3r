@@ -43,10 +43,14 @@
                         @error('description') <i class="text-danger">{{ $message }}</i> @enderror
                     </div>
                     <div class="form-group mt-2">
+                        <label for="name">Dibuat Oleh : </label>
+                        <input type="text" class="form-control @error('created_user_id') is-invalid @enderror" name="created_user_id" 
+                            value="{{ old('created_user_id', $blog->created_user_id) }}" placeholder="Masukkan Nama Pengguna">
+                        @error('description') <i class="text-danger">{{ $message }}</i> @enderror
+                    </div>
+                    <div class="form-group mt-2">
                         <label for="name">Image : </label><br>
-                        
                         <img src="{{ url($results->image) }}" width="150px" id="image" class="mt-2">
-
                         <input type="file" name="image" class="form-control mt-2" accept="image/*" onchange="document.getElementById('image').src = window.URL.createObjectURL(this.files[0])">
                         @error('image') <i class="text-danger">{{ $message }}</i> @enderror
                     </div>

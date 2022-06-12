@@ -36,12 +36,13 @@ Route::group(['middleware' => ['SSOBrokerMiddleware']], function () {
     });
 });
 
-Route::resource('/blog',BlogController::class);
+//Route::resource('/blog',BlogController::class);
 
-//Route::get('/blog',[BlogController::class,'index']);
-//Route::get('/blog.create',[BlogController::class,'create']);
-//Route::post('/blog.store',[BlogController::class,'store']);
-//Route::get('/edit/{id}',[BlogController::class,'edit']);
-//Route::post('/update/{id}',[BlogController::class,'update']);
-//Route::get('/destroy/{id}',[BlogController::class,'destroy']);
+Route::get('/',[BlogController::class,'index']);
+Route::get('/blog.create',[BlogController::class,'create']);
+Route::post('/blog.store',[BlogController::class,'store']);
+Route::get('/edit/{id}',[BlogController::class,'edit']);
+Route::post('/update/{id}',[BlogController::class,'update']);
+Route::get('/destroy/{id}',[BlogController::class,'destroy']);
+Route::get('/downloadpdf',[BlogController::class,'downloadpdf']);
 

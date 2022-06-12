@@ -29,6 +29,7 @@
             	<div class="col-lg-12 margin-tb">
 		        <h1>Latihan CRUD Blog</h1>
                 <a href="{{ url('blog.create') }}" class="btn btn-primary"> + Tambah Blog </a>
+                <a href="{{ url('downloadpdf') }}" class="btn btn-info"> Download PDF </a>
                 <table class="table mt-2">
                     <tr>
                         <th>ID</th>
@@ -42,6 +43,7 @@
                         <td>{{ $item->id }}</td>
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->description }}</td>
+                        <td>{{ $blog->createdUser->name }}</td>
                         <td><img src="{{ $item->image }}" width="100px"></td>
                         <td>
                             <a href="{{ url('blog.edit/' . $item->id) }}" class="btn btn-warning"> Edit </a>

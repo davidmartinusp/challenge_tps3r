@@ -181,6 +181,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -215,4 +216,6 @@ return [
         'Menu' => App\Services\Menu\MenuService::class,
     ])->toArray(),
 
+    $app->register(\Barryvdh\DomPDF\ServiceProvider::class),
+    $app->configure('dompdf'),
 ];

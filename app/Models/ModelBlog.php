@@ -24,4 +24,9 @@ class ModelBlog extends Model
     protected $hidden;
 
 
+    public function createdUser()
+    {
+        return $this->hasOne('App\Models\User','id','created_user_id');
+    }
+
 }

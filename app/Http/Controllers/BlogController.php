@@ -5,14 +5,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ModelBlog;
 use Illuminate\Support\Facades\Validator;
+use App\Services\BlogService;
+use Barryvdh\DomPDF\PDF;
 
 class BlogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    protected $BlogService;
+    function __construct(
+        BlogService $BlogService
+    ) {
+        $this->BlogService = $BlogService;
+    }
+
+    public function downloadpdf()
+    {
+        $data  = ModelBlog::all();
+        $pdf = PDF::loadview('blog.index', ['blog' => $data])->setOptions(['defauldFont' => 'sans-serif']);
+        return $pdf->download('laporan_blog.pdf');
+    }
+
     public function index()
     {
         $data = ModelBlog::all();
@@ -43,6 +54,7 @@ class BlogController extends Controller
         $validator = Validator::make($request->all(), [     
             'name'     => 'required',
             'description'   => 'required',
+            'created_user_id' => 'required',
             'image_id'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
          ]);
 
@@ -99,6 +111,7 @@ class BlogController extends Controller
         $this->validate($request,[
             'name' => 'required',
             'description' => 'required',
+            'created_user_id' => 'required',
             'image_id' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
