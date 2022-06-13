@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('blog', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('image_id');
             $table->text('description');
+            $table->string('image');
             $table->bigInteger('created_user_id');
             $table->softDeletes();
             $table->timestamps();

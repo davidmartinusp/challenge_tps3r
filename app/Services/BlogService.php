@@ -22,14 +22,14 @@ class BlogService
             'title' => $data['name'],
             'description' => $data['description'],
             'created_user_id' => $data['created_user_id'],
-            'image_id' => $data['image_id']->hashName(),
+            'image' => $data['image']->hashName(),
         ]);
     }
 
     public function delete($id)
     {
-        $blogs = ModelBlog::find($id);
-        $blogs->delete();
+        $blog = ModelBlog::find($id);
+        $blog->delete();
     }	
 
 }

@@ -43,7 +43,7 @@
                         @error('description') <i class="text-danger">{{ $message }}</i> @enderror
                     </div>
                     <div class="form-group mt-2">
-                        <label for="name">Dibuat Oleh : </label>
+                        <label for="name">Created By : </label>
                         <input type="text" class="form-control @error('created_user_id') is-invalid @enderror" name="created_user_id" 
                             value="{{ old('created_user_id', $blog->created_user_id) }}" placeholder="Masukkan Nama Pengguna">
                         @error('description') <i class="text-danger">{{ $message }}</i> @enderror

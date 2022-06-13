@@ -31,7 +31,7 @@
                 <form action="{{ url('store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group mt-2">
-                        <label for="name">Title : </label>
+                        <label for="name">Name : </label>
                         <input type="text" name="name" class="form-control" value="{{ old('name') }}">
                         @error('name') <i class="text-danger">{{ $message }}</i> @enderror
                     </div>
@@ -41,14 +41,14 @@
                         @error('description') <i class="text-danger">{{ $message }}</i> @enderror
                     </div>
                     <div class="form-group mt-2">
-                        <label class="font-weight-bold">Dibuat Oleh :</label>
+                        <label class="font-weight-bold">Created By :</label>
                         <input type="text" class="form-control @error('created_user_id') is-invalid" name="created_user_id" 
                         value="{{ old('created_user_id') }}" placeholder="Masukkan ID Pengguna"> <i class="text-danger">{{ $message }}</i> @enderror
                     </div>
                     <div class="form-group mt-2">
                         <label for="name">Image : </label>
                         <input type="file" name="image" class="form-control">
-                        @error('image_id') <i class="text-danger">{{ $message }}</i> @enderror
+                        @error('image') <i class="text-danger">{{ $message }}</i> @enderror
                     </div>
                     <div class="form-group mt-2">
                         <button type="submit" class="btn btn-primary">Submit</button>

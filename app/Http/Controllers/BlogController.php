@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\ModelBlog;
 use Illuminate\Support\Facades\Validator;
 use App\Services\BlogService;
-use Barryvdh\DomPDF\PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Storage;
 
 class BlogController extends Controller
 {
+    
     protected $BlogService;
     function __construct(
         BlogService $BlogService
@@ -19,17 +21,16 @@ class BlogController extends Controller
 
     public function downloadpdf()
     {
-        $data  = ModelBlog::all();
-        $pdf = PDF::loadview('blog.index', ['blog' => $data])->setOptions(['defauldFont' => 'sans-serif']);
+        $blog  = ModelBlog::all();
+        $pdf = PDF::loadview('blog.index', ['data_blog' => $blog])->setOptions(['defauldFont' => 'sans-serif']);
         return $pdf->download('laporan_blog.pdf');
     }
 
     public function index()
     {
-        $data = ModelBlog::all();
-
+        $blog = $this->BlogService->getData();
         return view('blog.index')->with([
-            'results' => $data
+            'data_blog' => $blog
         ]);
     }
 
@@ -51,25 +52,35 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [     
+        $this->validate($request, [     
             'name'     => 'required',
             'description'   => 'required',
             'created_user_id' => 'required',
-            'image_id'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
          ]);
 
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-         }
+        //if ($validator->fails()) {
+          //  return response()->json($validator->errors(), 422);
+         //}
 
-        $data = $request->except(['_token']);
-        if($request->file('image_id')){
-            $imgName = time().'.'.$request->file('image_id')->extension();
-            $data['image_id'] = $request->file('image_id')->move('blog',$imgName);
-        }
+        //$data = $request->except(['_token']);
+        //if($request->file('image_id')){
+            //$imgName = time().'.'.$request->file('image_id')->extension();
+          //  $data['image_id'] = $request->file('image_id')->move('blog',$imgName);
+        //}
 
-        ModelBlog::insert($data);
+        $image = $request->file('image');
+        $image->storeAs('/blog', $image->hashName());
+
+        $blog = ModelBlog::create([
+            'name'     => $request->name,
+            'description'   => $request->description,
+            'created_user_id'   => $request->created_user_id,
+            'image'     => $image->hashName()
+            
+        ]);
+        //ModelBlog::insert($data);
         return redirect('/');
     }
 
@@ -90,13 +101,9 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(ModelBlog $blog)
     {
-        $data = ModelBlog::findOrFail($id);
-        
-        return view('blog.edit')->with([
-            'results' => $data
-        ]);
+        return view('blog.edit', compact('blog'));
     }
 
     /**
@@ -106,30 +113,40 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ModelBlog $blog)
     {
         $this->validate($request,[
             'name' => 'required',
             'description' => 'required',
             'created_user_id' => 'required',
-            'image_id' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
-        $item = ModelBlog::findOrFail($id);
-        $data = $request->except(['_token']);
+        $blog = ModelBlog::findOrFail($blog->id);
 
-        if($request->file('image_id')){
+        if ($request->file('image') == "") {
 
-            if($item->image != ''){
-                unlink($item->image);
-            }
+            $blog->update([
+                'name'     => $request->title,
+                'description'   => $request->description,
+                'created_user_id'     => $request->created_user_id
+                
+            ]);
+        }else{
+
+            Storage::disk('public')->delete('public/blog/' . $blog->image);
+
+            $image = $request->file('image');
+            $image->storeAs('/blog', $image->hashName());
             
-            
-            $imgName = time().'.'.$request->file('image_id')->extension();
-            $data['image_id'] = $request->file('image_id')->move('blog',$imgName);
+            $blog->update([
+                'name'     => $request->title,
+                'description'   => $request->description,
+                'created_user_id' => $request->created_user_id,
+                'image'     => $image->hashName()
+            ]);
+            return redirect('/');
         }
-        $item->update($data);
-        return redirect('/');
     }
 
     /**
@@ -138,11 +155,9 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ModelBlog $blog)
     {
-        $item = ModelBlog::findOrFail($id);
-        unlink($item->image);
-        $item->delete();
+        $blog->delete();
         return redirect('/');
     }
 }

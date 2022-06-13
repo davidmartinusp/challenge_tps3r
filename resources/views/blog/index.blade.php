@@ -33,21 +33,22 @@
                 <table class="table mt-2">
                     <tr>
                         <th>ID</th>
-                        <th>Title</th>
-                        <th>Deskripsi</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Created</th>
                         <th>Image</th>
                         <th>Action</th>
                     </tr>
-                    @forelse ($results as $item )
+                    @forelse ($data_blog as $i => $blog )
                     <tr>
-                        <td>{{ $item->id }}</td>
-                        <td>{{ $item->name }}</td>
-                        <td>{{ $item->description }}</td>
+                        <td>{{ $i + 1 }}</td>
+                        <td>{{ $blog->name }}</td>
+                        <td>{{ $blog->description }}</td>
                         <td>{{ $blog->createdUser->name }}</td>
-                        <td><img src="{{ $item->image }}" width="100px"></td>
+                        <td><img src="{{ ('public/blog/' .$blog->image) }}" width="100px"></td>
                         <td>
-                            <a href="{{ url('blog.edit/' . $item->id) }}" class="btn btn-warning"> Edit </a>
-                            <a href="{{ url('destroy/' . $item->id) }}" class="btn btn-danger"> Delete </a>
+                            <a href="{{ url ('blog.edit/' . $blog->id) }}" class="btn btn-warning"> Edit </a>
+                            <a href="{{ url ('destroy/' . $blog->id) }}" class="btn btn-danger"> Delete </a>
                         </td>
                     </tr>
                     @empty
