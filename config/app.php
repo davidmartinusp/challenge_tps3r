@@ -214,7 +214,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Menu' => App\Services\Menu\MenuService::class,
-        'dompdf' => \Barryvdh\DomPDF\ServiceProvider::class,
+        //'dompdf' => \Barryvdh\DomPDF\ServiceProvider::class,
     ])->toArray(),
 
     

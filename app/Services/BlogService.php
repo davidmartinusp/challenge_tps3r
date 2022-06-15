@@ -19,7 +19,7 @@ class BlogService
     public function create($data = [])
     {
         return ModelBlog::create([
-            'title' => $data['name'],
+            'name' => $data['name'],
             'description' => $data['description'],
             'created_user_id' => $data['created_user_id'],
             'image' => $data['image']->hashName(),

@@ -72,7 +72,8 @@ class BlogController extends Controller
 
         $image = $request->file('image');
         $image->storeAs('/blog', $image->hashName());
-
+            
+    
         $blog = ModelBlog::create([
             'name'     => $request->name,
             'description'   => $request->description,
@@ -134,7 +135,7 @@ class BlogController extends Controller
             ]);
         }else{
 
-            Storage::disk('public')->delete('public/blog/' . $blog->image);
+            Storage::disk('public')->delete('public/assets/blog/' . $blog->image);
 
             $image = $request->file('image');
             $image->storeAs('/blog', $image->hashName());
